@@ -1,8 +1,7 @@
-# Test Report — DoY5BlockTeamF
+# Test_Termin2 Report — DoY5BlockTeamF
 
 ## Project Overview
 
-This document describes the automated test protocol for the Control Center API of the DoY5BlockTeamF project.
 
 The purpose of these tests is to verify:
 
@@ -14,38 +13,19 @@ The purpose of these tests is to verify:
 
 ---
 
-# Test Environment
-
-| Component | Version |
-|---|---|
-| Operating System | macOS 26.3.1 ARM64 |
-| Python | 3.14.4 |
-| pytest | 9.0.3 |
-| pluggy | 1.6.0 |
-| requests | latest |
-| Docker | Used for Control Center container |
-| API Base URL | `http://127.0.0.1:8080` |
-
----
 
 # Test Execution
+
+## Diploy all the Containers
+
+```bash
+docker compose up
+```
 
 ## Run All Tests
 
 ```bash
 pytest -v
-```
-
-## Generate HTML Report
-
-```bash
-pytest --html=reports/latest_report.html --self-contained-html
-```
-
-## Generate Coverage Report
-
-```bash
-pytest --cov=. --cov-report=html
 ```
 
 ---
@@ -376,20 +356,6 @@ The following error conditions are tested:
 
 ---
 
-# Limitations
-
-The current tests do not yet cover:
-
-- Authentication and authorization
-- Long-duration stress testing
-- Database persistence verification
-- Security testing
-- Packet loss simulation
-- Network failure recovery
-
-These areas may be added in future milestones.
-
----
 
 # Conclusion
 
@@ -411,4 +377,4 @@ Final Result:
 19 passed in 0.33s
 ```
 
-The tested Control Center API is considered stable and operational within the defined functional and non-functional requirements.
+
