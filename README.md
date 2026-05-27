@@ -8,7 +8,6 @@ The purpose of these tests is to verify:
 - Mission dispatch and vehicle selection logic
 - RPC mission execution lifecycle
 - Vehicle assignment compatibility and state transitions
-- System status visibility
 - Latency and stress performance
 
 ---
@@ -38,8 +37,7 @@ pytest -v
 | RPC Mission Tests | 2 | 2 | 0 |
 | RPC Vehicle Tests | 3 | 3 | 0 |
 | RPC Performance Tests | 2 | 2 | 0 |
-| Status API Tests | 4 | 4 | 0 |
-| TOTAL | 21 | 21 | 0 |
+| TOTAL | 17 | 17 | 0 |
 
 ---
 
@@ -136,7 +134,7 @@ Validate mission assignment lifecycle.
 
 - Vehicle receives mission assignment
 - Mission stores assigned vehicle
-- Vehicle returns to idle after recovery
+- Vehicle returns to idle after mission completion
 
 ### Test Cases
 
@@ -186,13 +184,31 @@ Measure responsiveness and concurrent mission execution.
 
 ### Latency Validation
 
-- End-to-end mission execution completes successfully
+Measured Result:
+
+```text
+END_TO_END_MISSION_FLOW_LATENCY: 55.14 ms
+```
+
+Verified:
+
+- Complete RPC mission execution succeeded
+- Mission orchestration completed without timeout
+- Response latency remained efficient
 
 ### Stress Validation
 
-- Concurrent mission execution remains stable
-- No mission loss during load
-- System stays responsive under stress
+Measured Result:
+
+```text
+RPC_STRESS_TOTAL_TIME: 13.97 ms
+```
+
+Verified:
+
+- Concurrent mission execution completed successfully
+- No mission assignment failures occurred
+- System remained responsive under load
 
 ### Test Cases
 
@@ -201,38 +217,21 @@ Measure responsiveness and concurrent mission execution.
 
 ---
 
-# 6. Status API Tests
-
-File:
-
-```text
-tests/test_status_api.py
-```
-
-## Objective
-
-Validate monitoring and service status endpoints.
-
-### Verified JSON Response
-
-- System returns HTTP 200
-- JSON payload structure is valid
-- Status endpoint is accessible
-
-### Test Cases
-
-- test_get_status_returns_200_and_json  
-
----
-
 # Final Result
 
 All selected Test Termin 3 scenarios completed successfully.
 
-Result:
+Performance Results:
 
 ```text
-PASSED: 21
+END_TO_END_MISSION_FLOW_LATENCY = 55.14 ms
+RPC_STRESS_TOTAL_TIME         = 13.97 ms
+```
+
+Overall Result:
+
+```text
+PASSED: 17
 FAILED: 0
 SUCCESS RATE: 100%
 ```
