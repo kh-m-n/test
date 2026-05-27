@@ -58,7 +58,7 @@ Validate dashboard UI delivery and live map integration.
 - Dashboard HTML shell loads
 - Static JS/CSS assets are reachable
 - Structured map JSON is returned
-- Legacy map page remains functional
+- map page remains functional
 
 ## Tested Endpoints
 
@@ -233,5 +233,4 @@ Overall Result:
 ```text
 PASSED: 17
 FAILED: 0
-SUCCESS RATE: 100%
 ```
