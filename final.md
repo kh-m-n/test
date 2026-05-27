@@ -1,19 +1,15 @@
 # DoY5BlockTeamF  
-## Distributed Flood Response System for a North Sea Island
-
-Distributed Systems Practical Course  
-Hochschule Darmstadt — Sommersemester 2026
+## Distributed Flood Response System — Sturmflut Nordsee
 
 ---
 
 # Overview
 
-This repository contains the implementation of a distributed disaster-response system developed for the Distributed Systems practical course at Hochschule Darmstadt.
+This repository contains the implementation of a distributed disaster-response system .
 
 The project simulates emergency coordination on a fictional North Sea island after a severe storm flood. Multiple distributed components communicate over different protocols to monitor the environment, report incidents, coordinate autonomous vehicles, and visualize the current system state through a browser-based dashboard.
 
-The system is intentionally implemented using low-level communication primitives such as raw TCP sockets and manually parsed HTTP requests in order to better understand the internal mechanics of distributed communication systems.
-
+The system is implemented using communication methods such as raw TCP sockets and manually parsed HTTP requests .
 ---
 
 # Project Goals
@@ -31,7 +27,6 @@ The project focuses on:
 - automated testing
 - reproducibility and observability
 
-The system is developed incrementally throughout the semester and continuously extended with new distributed communication mechanisms.
 
 ---
 
@@ -43,13 +38,13 @@ A central control center coordinates:
 
 - autonomous vehicles
 - environmental sensors
-- emergency incidents
+- incidents
 - infrastructure monitoring
-- island visualization
+- islandmap visualization
 
 Sensors continuously monitor the island and generate alerts when dangerous situations occur. Vehicles are intended to react to incidents and operate across different terrain types.
 
-The entire system is deployed as distributed services running in separate containers.
+The entire system is deployed as distributed system running in separate containers.
 
 ---
 
@@ -66,53 +61,19 @@ The current implementation includes:
 - incident creation and management
 - dashboard visualization
 - island map representation
-- browser-rendered monitoring interface
-- automated functional tests
-- automated non-functional tests
+- functional tests
+- non-functional tests
 - latency and concurrency measurements
 - Docker-based deployment
 
-The repository already contains the foundations for future milestones including RPC communication using Protocol Buffers.
 
 ---
 
 # System Architecture
 
-```text
-                                    +----------------------+
-                                    |      Dashboard       |
-                                    |  Browser Interface   |
-                                    +----------+-----------+
-                                               |
-                                               | HTTP GET
-                                               |
-+------------------+          +----------------v----------------+
-|      Sensors     |--------->|         Control Center          |
-|------------------|          |--------------------------------|
-| Camera Sensors   |          | Custom TCP HTTP Server         |
-| Water Sensors    |          | HTTP Parsing & Routing         |
-| Vibration Sensor |          | REST API                       |
-+------------------+          | Incident Management            |
-                              | Vehicle Registration           |
-                              | Status Aggregation             |
-                              | Map Management                 |
-                              +----------------+---------------+
-                                               |
-                                               |
-                                               v
-                                   +----------------------+
-                                   |      RPC Layer       |
-                                   | Protocol Buffers     |
-                                   +----------------------+
+> Architecture diagram placeholder  
+> *(Diagram will be added soon.)*
 
-                    +----------------+----------------+
-                    |                |                |
-                    v                v                v
-
-             +-------------+  +-------------+  +-------------+
-             |    Drone    |  |    Rover    |  |     Boat    |
-             +-------------+  +-------------+  +-------------+
-```
 
 ---
 
@@ -132,7 +93,7 @@ Responsibilities include:
 - incident management
 - dashboard rendering
 - island map management
-- system status aggregation
+- system status 
 
 The HTTP server is implemented manually without using Flask, FastAPI, Django, or other HTTP frameworks.
 
@@ -140,7 +101,7 @@ The HTTP server is implemented manually without using Flask, FastAPI, Django, or
 
 | Module | Purpose |
 |---|---|
-| `tcpserversocket.py` | Low-level TCP socket server |
+| `tcpserversocket.py` | TCP socket server |
 | `parsing.py` | Manual HTTP request parsing |
 | `routes.py` | Route management |
 | `handlers.py` | Endpoint request handling |
@@ -151,7 +112,7 @@ The HTTP server is implemented manually without using Flask, FastAPI, Django, or
 
 ## Dashboard
 
-The dashboard provides a browser-accessible visualization of the current system state.
+The dashboard provides a browser-accessible visualization of the current system state with Islandmap and status tabel.
 
 ### Endpoint
 
@@ -167,13 +128,12 @@ The dashboard visualizes:
 
 - registered vehicles
 - active sensors
-- incidents
-- map overview
+- incidents sent by sensors
+- map visualization
 - infrastructure elements
 - system statistics
 - unit positions
 - incident details
-- overall control center state
 
 The dashboard demonstrates browser-compatible HTTP rendering without external web frameworks.
 
@@ -185,13 +145,13 @@ The system currently supports three autonomous vehicle types.
 
 | Vehicle | Description |
 |---|---|
-| Drone | Fast aerial unit |
+| Drone | Ground-based and Water-based unit |
 | Rover | Ground-based exploration unit |
 | Boat | Water-based transport unit |
 
-Vehicles register themselves through the REST API and are managed by the control center.
+Vehicles register themselves through the REST API and are managed by the control center and assighned missions.
 
-The repository already contains the foundations for future RPC-based vehicle coordination.
+Missions are assigned to the vehicles through a RPC-based coordination.
 
 ---
 
@@ -205,9 +165,9 @@ Different sensor types monitor the environment and automatically generate incide
 |---|---|
 | Camera Sensor | Person detection |
 | Water Sensor | Water level monitoring |
-| Vibration Sensor | Structural vibration monitoring |
+| Vibration Sensor | High vibration monitoring |
 
-Sensors simulate environmental measurements and continuously interact with the control center.
+Sensors simulate environmental measurements and continuously interact with the control center by reporting incidents.
 
 ---
 
@@ -256,7 +216,7 @@ Each map cell represents either:
 
 # Infrastructure
 
-The map includes predefined infrastructure required for rescue and logistics operations.
+The map includes predefined solid infrastructure .
 
 ## Implemented Infrastructure
 
@@ -264,9 +224,11 @@ The map includes predefined infrastructure required for rescue and logistics ope
 |---|---|
 | Harbors | 2 |
 | Charging Stations | 2 |
+| Depot | 1 |
+| Landing Field | 1 |
 | Bridges | Multiple |
 
-Infrastructure information is integrated into the map and dashboard visualization.
+Infrastructure information is integrated into the map and dashboard visualization through different colors.
 
 ---
 
@@ -295,7 +257,7 @@ The REST interface is implemented manually using raw TCP sockets and custom requ
 |---|---|---|
 | POST | `/unit` | Register vehicle or sensor |
 | POST | `/incident` | Create incident |
-| GET | `/status` | Retrieve global system state |
+| GET | `/status` | Retrieve global system state ,currently JSON |
 | GET | `/map` | Retrieve island map |
 | GET | `/dashboard` | Open monitoring dashboard |
 
@@ -314,8 +276,8 @@ Content-Type: application/json
   "unit": "vehicle",
   "vehicle_type": "drone",
   "position": {
-    "x": 2,
-    "y": 3
+    "x": 5,
+    "y": 12
   }
 }
 ```
@@ -351,12 +313,13 @@ Content-Type: application/json
   "id": "incident-1",
   "incident_type": "person_detected",
   "source_id": "camera-1",
-  "message": "Person near bridge",
+  "message": "Person Detected with High-Probability",
   "position": {
     "x": 10,
     "y": 12
   },
-  "priority": 2
+  "priority": 2,
+  "status": "open"
 }
 ```
 
@@ -364,21 +327,23 @@ Content-Type: application/json
 
 # RPC Layer
 
-The repository already contains the RPC foundation for future milestones.
+Control center assigns missions to vehicles through RPC commnunication
 
 ## RPC Components
 
 | File | Purpose |
 |---|---|
+| `dispatcher.py` | Mission request distribution |
+| `mission_pb2_grpc.py` | Generated protobuf messages |
+| `mission_pb2.py` | Generated gRPC service bindings |
 | `rpc_server.py` | RPC server implementation |
 | `mission.proto` | Protocol Buffers definition |
 
 The RPC layer is intended for:
 
 - mission assignment
-- distributed coordination
 - vehicle communication
-- remote procedure execution
+
 
 ---
 
@@ -414,7 +379,7 @@ DoY5BlockTeamF/
 | Python | Main implementation |
 | Docker | Containerization |
 | Docker Compose | Multi-container orchestration |
-| TCP Sockets | Low-level networking |
+| TCP Sockets | networking |
 | pytest | Automated testing |
 | requests | REST API testing |
 | threading | Concurrency testing |
@@ -435,7 +400,7 @@ DoY5BlockTeamF/
 # Start the System
 
 ```bash
-docker compose up --build
+docker compose up 
 ```
 
 ---
@@ -445,14 +410,22 @@ docker compose up --build
 Open in browser:
 
 ```text
-http://127.0.0.1:8080/dashboard
+http://localhost:8080/dashboard
 ```
 
 ---
 
 # Testing
 
-The repository contains automated functional and non-functional tests.
+The repository contains functional and non-functional tests.
+
+---
+
+# Deploy containers
+
+```bash
+docker compose up
+```
 
 ---
 
@@ -460,14 +433,6 @@ The repository contains automated functional and non-functional tests.
 
 ```bash
 pytest -v
-```
-
----
-
-# Generate HTML Test Report
-
-```bash
-pytest --html=reports/latest_report.html --self-contained-html
 ```
 
 ---
@@ -519,7 +484,7 @@ The project intentionally avoids external web frameworks in order to better unde
 - request parsing
 - routing
 - response generation
-- low-level distributed communication
+- distributed communication
 
 ---
 
@@ -544,7 +509,6 @@ The project uses Docker and Docker Compose to ensure:
 - reproducible deployments
 - isolated execution environments
 - simplified distributed setup
-- consistent testing environments
 
 ---
 
@@ -554,31 +518,6 @@ Planned future extensions include:
 
 - RPC-based mission assignment
 - MQTT-based event communication
-- decentralized coordination algorithms
-- battery and charging management
-- autonomous routing
-- distributed synchronization
-- fault tolerance mechanisms
-- distributed locking algorithms
-- load balancing strategies
+- ...
 
 ---
-
-# Testing Documentation
-
-Detailed testing documentation and reports are available in:
-
-```text
-tests/
-docs/
-reports/
-```
-
----
-
-# Authors
-
-DoY5BlockTeamF  
-Distributed Systems Practical Course  
-Hochschule Darmstadt  
-Sommersemester 2026
