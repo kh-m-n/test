@@ -1,313 +1,27 @@
-# DoY5BlockTeamF  
-## Distributed Flood Response System — Sturmflut Nordsee
+# Test_Termin3 Report — DoY5BlockTeamF
 
-Distributed Systems Practical Course  
-Hochschule Darmstadt — Sommersemester 2026
+## Project Overview
 
----
+The purpose of these tests is to verify:
 
-# Overview
-
-This project implements a distributed disaster-response system for a fictional North Sea island after a severe storm flood.
-
-The system simulates a central control center that coordinates:
-
-- autonomous vehicles
-- stationary sensors
-- incident reporting
-- infrastructure monitoring
-- map visualization
-- emergency management
-
-The project is developed as part of the Distributed Systems practical course and is implemented incrementally across multiple milestones.
+- Dashboard availability and frontend delivery
+- Mission dispatch and vehicle selection logic
+- RPC mission execution lifecycle
+- Vehicle assignment compatibility and state transitions
+- System status visibility
+- Latency and stress performance
 
 ---
 
-# Scenario
+# Test Execution
 
-After a storm flood, the island infrastructure is partially damaged.
-
-Different autonomous units operate across the island:
-
-- drones
-- rovers
-- boats
-
-Sensors and cameras continuously monitor the environment and report incidents such as:
-
-- person detected
-- high water level
-- vibration alerts
-- blocked routes
-
-A central control center receives and manages all events and provides a live dashboard for monitoring the entire system.
-
----
-
-# Current Milestone
-
-## Aufgabe 1 — Control Center and REST Communication via TCP Sockets
-
-Implemented features:
-
-- Custom TCP-based HTTP server
-- Manual HTTP request parsing
-- REST API without external web frameworks
-- Vehicle registration
-- Sensor registration
-- Incident management
-- Dashboard and status visualization
-- 20x20 island map
-- Infrastructure representation
-- Automated testing
-
----
-
-# System Architecture
-
-```text
-                    +-------------------+
-                    |     Dashboard     |
-                    |  Browser Client   |
-                    +---------+---------+
-                              |
-                              | HTTP GET
-                              |
-+-------------+     +---------v---------+      +-------------+
-|   Sensors   |---->|   Control Center  |<-----|  Vehicles   |
-| Cameras     |     |   TCP HTTP Server |      | Boat/Rover  |
-| WaterSensor |     |                   |      | Drone       |
-| Vibration   |     +-------------------+      +-------------+
-+-------------+
-```
-
----
-
-# Components
-
-## Control Center
-
-Central management component of the system.
-
-Responsibilities:
-
-- HTTP request handling
-- REST endpoint management
-- unit registration
-- incident management
-- map management
-- dashboard rendering
-- system status aggregation
-
-The HTTP server is implemented manually using TCP sockets.
-
-No external web frameworks are used.
-
----
-
-## Vehicles
-
-The system currently supports three vehicle types:
-
-| Vehicle | Description |
-|---|---|
-| Drone | Fast aerial vehicle |
-| Rover | Ground-based exploration vehicle |
-| Boat | Water-based transport vehicle |
-
-Vehicles register themselves through the REST API.
-
----
-
-## Sensors and Cameras
-
-Different sensor types simulate environmental monitoring.
-
-### Implemented Sensor Types
-
-| Sensor | Purpose |
-|---|---|
-| Camera | Person detection |
-| Water Sensor | Water level monitoring |
-| Vibration Sensor | Structural vibration detection |
-
-Sensors generate incidents based on threshold values or simulated measurements.
-
----
-
-# Incident System
-
-The control center processes incidents reported by sensors.
-
-## Supported Incident Types
-
-| Incident | Description |
-|---|---|
-| `person_detected` | Camera detects a person |
-| `water_level_alert` | Water level exceeds threshold |
-| `vibration_detected` | Dangerous vibration detected |
-
-Incidents are stored and displayed in the dashboard and system status.
-
----
-
-# REST API
-
-The REST interface is implemented manually over raw TCP sockets.
-
-## Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/unit` | Register vehicle or sensor |
-| POST | `/incident` | Create incident |
-| GET | `/status` | Get system status |
-| GET | `/map` | Get island map |
-
----
-
-# Example Requests
-
-## Register Vehicle
-
-```http
-POST /unit
-Content-Type: application/json
-
-{
-  "id": "drone-1",
-  "unit": "vehicle",
-  "vehicle_type": "drone",
-  "position": {
-    "x": 2,
-    "y": 3
-  }
-}
-```
-
----
-
-## Create Incident
-
-```http
-POST /incident
-Content-Type: application/json
-
-{
-  "id": "incident-1",
-  "incident_type": "person_detected",
-  "source_id": "camera-1",
-  "message": "Person near bridge",
-  "position": {
-    "x": 10,
-    "y": 12
-  }
-}
-```
-
----
-
-# Island Map
-
-The system contains a 20x20 grid-based island map.
-
-Each field is either:
-
-- land
-- water
-
-## Infrastructure
-
-The map currently includes:
-
-- 2 harbors
-- 2 charging stations
-- bridges
-- roads and terrain zones
-
-The map state is accessible through the dashboard and REST API.
-
----
-
-# Dashboard
-
-The dashboard provides a live overview of the system state.
-
-## Displayed Information
-
-- registered vehicles
-- registered sensors
-- active incidents
-- infrastructure
-- map overview
-- unit positions
-- incident details
-
-The dashboard is served directly by the custom HTTP server and can be accessed from a browser.
-
----
-
-# Technologies
-
-| Technology | Usage |
-|---|---|
-| Python | Main implementation |
-| TCP Sockets | HTTP communication |
-| Docker | Containerization |
-| Docker Compose | Multi-container orchestration |
-| pytest | Automated testing |
-| requests | API testing |
-| threading | Concurrency testing |
-
----
-
-# Project Structure
-
-```text
-.
-├── control-center/
-├── dashboard/
-├── sensors/
-├── vehicles/
-├── tests/
-├── reports/
-├── docker-compose.yml
-└── README.md
-```
-
----
-
-# Running the System
-
-## Requirements
-
-- Docker
-- Docker Compose
-- Python 3.14+
-
----
-
-## Start Containers
+## Deploy all Containers
 
 ```bash
-docker compose up --build
+docker compose up
 ```
 
----
-
-## Access Dashboard
-
-```text
-http://127.0.0.1:8080
-```
-
----
-
-# Testing
-
-Automated tests are implemented using `pytest`.
-
-## Run Tests
+## Run Selected Tests
 
 ```bash
 pytest -v
@@ -315,87 +29,210 @@ pytest -v
 
 ---
 
-## Generate HTML Test Report
+# Test Summary
 
-```bash
-pytest --html=reports/latest_report.html --self-contained-html
-```
-
----
-
-# Implemented Tests
-
-## Functional Tests
-
-- vehicle registration
-- sensor registration
-- incident creation
-- duplicate prevention
-- invalid request handling
-- route validation
-
-## Non-Functional Tests
-
-- latency testing
-- concurrent request testing
-- burst load testing
+| Test Category | Test Count | Passed | Failed |
+|---|---:|---:|---:|
+| Dashboard API Tests | 4 | 4 | 0 |
+| Dispatcher Tests | 6 | 6 | 0 |
+| RPC Mission Tests | 2 | 2 | 0 |
+| RPC Vehicle Tests | 3 | 3 | 0 |
+| RPC Performance Tests | 2 | 2 | 0 |
+| Status API Tests | 4 | 4 | 0 |
+| TOTAL | 21 | 21 | 0 |
 
 ---
 
-# Example Test Result
+# 1. Dashboard API Tests
+
+File:
 
 ```text
-==============================
-19 passed in 0.33s
-==============================
+tests/test_dashboard_api.py
 ```
 
----
+## Objective
 
-# Design Decisions
+Validate dashboard UI delivery and live map integration.
 
-## Manual HTTP Parsing
+### Verified
 
-The project intentionally avoids external web frameworks to better understand:
+- Dashboard HTML shell loads
+- Static JS/CSS assets are reachable
+- Structured map JSON is returned
+- Legacy map page remains functional
 
-- TCP communication
-- HTTP protocol structure
-- request parsing
-- routing
-- response generation
+## Tested Endpoints
 
----
+| Endpoint | Method |
+|---|---|
+| /dashboard | GET |
+| /dashboard.css | GET |
+| /dashboard.js | GET |
+| /map-data | GET |
+| /map | GET |
 
-## Distributed Architecture
+## Test Cases
 
-The system is designed as a distributed multi-component architecture where:
-
-- sensors
-- vehicles
-- dashboard
-- control center
-
-can operate independently in separate containers.
-
----
-
-# Future Milestones
-
-Planned future extensions include:
-
-- RPC-based vehicle dispatching
-- MQTT event communication
-- decentralized coordination algorithms
-- battery and charging management
-- autonomous routing
-- distributed resource allocation
-- fault tolerance mechanisms
+- test_dashboard_serves_static_application_shell  
+- test_dashboard_assets_are_available  
+- test_map_data_returns_structured_map_for_live_dashboard  
+- test_legacy_map_page_remains_available  
 
 ---
 
-# Authors
+# 2. Dispatcher Tests
 
-DoY5BlockTeamF  
-Distributed Systems Practical Course  
-Hochschule Darmstadt  
-Sommersemester 2026
+File:
+
+```text
+tests/test_dispatcher.py
+```
+
+## Objective
+
+Verify automatic mission dispatch and recovery behavior.
+
+### Verified
+
+- Correct vehicle type selection by incident and terrain
+- Mission requeue after vehicle failure
+- Mission completion updates incident state
+- Vehicles become reusable after returning idle
+
+### Vehicle Routing Matrix
+
+| Incident | Area | Vehicle |
+|---|---|---|
+| person_detected | LAND | rover |
+| person_detected | WATER | boat |
+| vibration_alert | LAND | rover |
+| water_level_alert | WATER | drone |
+
+### Test Cases
+
+- test_required_vehicle_type[person_detected-LAND-rover]  
+- test_required_vehicle_type[person_detected-WATER-boat]  
+- test_required_vehicle_type[vibration_alert-LAND-rover]  
+- test_required_vehicle_type[water_level_alert-WATER-drone]  
+- test_error_requeues_mission_until_vehicle_reports_idle  
+- test_completed_mission_resolves_incident_and_releases_vehicle_on_idle  
+
+---
+
+# 3. RPC Mission Tests
+
+File:
+
+```text
+tests/test_rpc_mission.py
+```
+
+## Objective
+
+Validate mission assignment lifecycle.
+
+### Verified
+
+- Vehicle receives mission assignment
+- Mission stores assigned vehicle
+- Vehicle returns to idle after recovery
+
+### Test Cases
+
+- test_assign_mission_updates_vehicle_and_mission  
+- test_vehicle_becomes_idle_again  
+
+---
+
+# 4. RPC Vehicle Tests
+
+File:
+
+```text
+tests/test_rpc_vehicle.py
+```
+
+## Objective
+
+Validate vehicle-side RPC acceptance rules.
+
+### Verified
+
+- Idle vehicles accept missions
+- Busy vehicles reject new missions
+- Incompatible missions are denied
+
+### Test Cases
+
+- test_vehicle_accepts_mission_when_idle  
+- test_vehicle_rejects_second_mission_when_busy  
+- test_vehicle_rejects_incompatible_mission  
+
+---
+
+# 5. RPC Performance Tests
+
+Files:
+
+```text
+tests/test_rpc_latency.py
+tests/test_rpc_stress.py
+```
+
+## Objective
+
+Measure responsiveness and concurrent mission execution.
+
+### Latency Validation
+
+- End-to-end mission execution completes successfully
+
+### Stress Validation
+
+- Concurrent mission execution remains stable
+- No mission loss during load
+- System stays responsive under stress
+
+### Test Cases
+
+- test_end_to_end_mission_flow_latency  
+- test_rpc_mission_flow_stress  
+
+---
+
+# 6. Status API Tests
+
+File:
+
+```text
+tests/test_status_api.py
+```
+
+## Objective
+
+Validate monitoring and service status endpoints.
+
+### Verified JSON Response
+
+- System returns HTTP 200
+- JSON payload structure is valid
+- Status endpoint is accessible
+
+### Test Cases
+
+- test_get_status_returns_200_and_json  
+
+---
+
+# Final Result
+
+All selected Test Termin 3 scenarios completed successfully.
+
+Result:
+
+```text
+PASSED: 21
+FAILED: 0
+SUCCESS RATE: 100%
+```
